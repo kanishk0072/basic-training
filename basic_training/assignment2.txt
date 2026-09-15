@@ -1,0 +1,79 @@
+1. a) Create a sample folder in the home directory
+mkdir -p ~/sample
+b). Create sample.txt
+touch ~/sample/sample.txt
+c). Add content to sample.txt
+echo "Hi! This is just a sample text file created using shell script." > ~/sample/sample.txt
+d). Print the contents of the file
+cat ~/sample/sample.txt
+e). Count the occurrences of the letter 't'
+grep -o "t" ~/sample/sample.txt | wc -l
+f). Give the owner read, write and execute permissions
+chmod u=rwx ~/sample/sample.txt
+g). Append another line to the file
+echo "Hi! This is just another sample text added to file." >> ~/sample/sample.txt
+h). Give the group only read permission
+chmod g=r ~/sample/sample.txt
+i). Remove all permissions for others
+chmod o= ~/sample/sample.txt
+j). Create sample2.txt with the same content as sample.txt
+cp ~/sample/sample.txt ~/sample/sample2.txt
+k). Add 1000 random lines to sample.txt
+for i in {1..1000}; do
+ echo "This is random line $i." >> ~/sample/sample.txt
+ done
+l). Print the top 50 lines of the file
+head -n 50 ~/sample/sample.txt
+m).  Print the bottom 50 lines of the file
+tail -n 50 ~/sample/sample.txt
+n). Create five files
+touch ~/sample/prog1.txt
+ touch ~/sample/prog2.txt
+ touch ~/sample/program.txt
+ touch ~/sample/code.txt
+ touch ~/sample/info.txt
+o). List the files containing "prog" in their name
+ls ~/sample/*prog*
+p). Create an alias to list files containing "prog"
+alias list='ls ~/sample/prog'
+—---------------------------------------------------------------------------------------------------------
+2. What is the difference between source and sh commands?
+source runs the script in the current shell, while sh runs the script in a new shell.
+source script.sh
+sh script.sh	 	
+
+3. Create two files a.txt and b.txt. Write a command to get the difference between the contents in two files.
+touch a.txt b.txt
+diff a.txt b.txt
+
+4. What is the difference between ls and lsof?
+ls is used to list files and directories.
+ls
+lsof is used to show open files and the processes using them.
+lsof
+5. Create directories ./hello/world using a single mkdir command.
+mkdir -p ./hello/world
+
+6. How can you permanently set an environment variable using a Bash terminal?
+Add the variable to ~/.bashrc:
+echo 'export MY_VARIABLE="Deqode"' >> ~/.bashrc
+
+Then run:f
+source ~/.bashrc
+
+7. How can you view and then kill a process running on a port?
+First, find the process:
+lsof -i :3000
+
+Then use its PID to kill it:
+kill PID
+
+For example:
+kill 12345
+
+If required, forcefully kill it:
+kill -9 12345
+
+
+
+
