@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBMS Quiz Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SCREEN 1: Start Screen -->
+    <div id="start-screen" class="screen active">
+        <h1>DBMS Trivia Quiz</h1>
+        <!-- <p>Test your database internals knowledge!</p> -->
+        <button id="start-btn">Start Game</button>
+    </div>
+
+    <!-- SCREEN 2: Game Screen -->
+    <div id="game-screen" class="screen">
+        <div id="stats">
+            <span id="score">Score: 0</span>
+            <span id="lives">Lives: 3</span>
+        </div>
+        <div id="question-area">
+            <p id="question-text">Questions</p>
+        </div>
+        <div id="options">
+            <button class="option-btn" data-index="0"></button>
+            <button class="option-btn" data-index="1"></button>
+            <button class="option-btn" data-index="2"></button>
+            <button class="option-btn" data-index="3"></button>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: End Screen -->
+    <div id="end-screen" class="screen">
+        <h2 id="result-message">Game Over</h2>
+        <p id="final-score">Final Score: 0</p>
+        <button id="play-again-btn">Play Again</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
