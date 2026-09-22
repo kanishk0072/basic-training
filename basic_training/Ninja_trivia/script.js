@@ -6,7 +6,10 @@ const question_text = document.querySelector("#question-text");
 const option_buttons = document.querySelectorAll(".option-btn");
 const score_display = document.querySelector("#score");
 const lives_display = document.querySelector("#lives");
+const timer_display = document.querySelector("#timer");
 const play_again_btn = document.querySelector("#play-again-btn");
+
+const TIME_PER_QUESTION = 15;
 
 const game = {
     questions: [
@@ -95,18 +98,37 @@ const game = {
     score: 0,
     lives: 3,
     currentQuestionIndex: 0,
+    timeLeft: TIME_PER_QUESTION,
+    timerInterval: null,
 
     init() {
-        this.score = 0;
-        this.lives = 3;
-        this.currentQuestionIndex = 0;
+        try {
+            if (!Array.isArray(this.questions) || this.questions.length === 0) {
+                throw new Error("Questions array is empty or malformed.");
+            }
 
+            this.score = 0;
+            this.lives = 3;
+            this.currentQuestionIndex = 0;
+
+            strt_screen.classList.remove('active');
+            end_screen.classList.remove('active');
+            game_screen.classList.add('active');
+
+            this.updateStats();
+            this.showQuestion();
+        } catch (error) {
+            this.showError(error.message);
+        }
+    },
+
+    showError(message) {
         strt_screen.classList.remove('active');
-        end_screen.classList.remove('active');
-        game_screen.classList.add('active');
+        game_screen.classList.remove('active');
+        end_screen.classList.add('active');
 
-        this.updateStats();
-        this.showQuestion();
+        result_message.textContent = "Something went wrong";
+        final_score.textContent = message;
     },
 
     updateStats() {
@@ -124,9 +146,30 @@ const game = {
             btn.classList.remove('correct', 'wrong');
             btn.disabled = false;
         });
+
+        this.startTimer();
+    },
+
+    startTimer() {
+        clearInterval(this.timerInterval);
+
+        this.timeLeft = TIME_PER_QUESTION;
+        timer_display.textContent = `Time: ${this.timeLeft}`;
+
+        this.timerInterval = setInterval(() => {
+            this.timeLeft -= 1;
+            timer_display.textContent = `Time: ${this.timeLeft}`;
+
+            if (this.timeLeft <= 0) {
+                clearInterval(this.timerInterval);
+                this.checkAnswer(-1);
+            }
+        }, 1000);
     },
 
     checkAnswer(selectedIndex) {
+        clearInterval(this.timerInterval);
+
         const currentQuestion = this.questions[this.currentQuestionIndex];
         const correctOption = currentQuestion.correctAnswerIndex;
 
@@ -137,7 +180,9 @@ const game = {
             option_buttons[selectedIndex].classList.add('correct');
         } else {
             this.lives -= 1;
-            option_buttons[selectedIndex].classList.add('wrong');
+            if (selectedIndex !== -1) {
+                option_buttons[selectedIndex].classList.add('wrong');
+            }
             option_buttons[correctOption].classList.add('correct');
         }
 
@@ -165,4 +210,8 @@ option_buttons.forEach((btn, index) => {
     btn.addEventListener('click', function () {
         game.checkAnswer(index);
     });
+});
+
+play_again_btn.addEventListener('click', function () {
+    game.init();
 });
