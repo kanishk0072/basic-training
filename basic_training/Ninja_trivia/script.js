@@ -7,6 +7,8 @@ const option_buttons = document.querySelectorAll(".option-btn");
 const score_display = document.querySelector("#score");
 const lives_display = document.querySelector("#lives");
 const timer_display = document.querySelector("#timer");
+const result_message = document.querySelector("#result-message");
+const final_score = document.querySelector("#final-score");
 const play_again_btn = document.querySelector("#play-again-btn");
 
 const TIME_PER_QUESTION = 15;
@@ -200,6 +202,16 @@ const game = {
             }
         }, 600);
     },
+
+    endGame(didWin) {
+        clearInterval(this.timerInterval);
+
+        game_screen.classList.remove('active');
+        end_screen.classList.add('active');
+
+        result_message.textContent = didWin ? "You Win!" : "Game Over";
+        final_score.textContent = `Final Score: ${this.score}`;
+    }
 };
 
 strt_btn.addEventListener('click', function () {
